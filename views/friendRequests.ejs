@@ -1,0 +1,90 @@
+<%- include ("includes/header") %>
+
+<section>
+	<div class="gap gray-bg">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row" id="page-contents">
+
+						<div class="col-md-3">
+							<%- include ("includes/left-sidebar") %>
+						</div>
+
+						<div class="col-md-6">
+
+							<div class="central-meta">
+								<div class="editing-interest">
+									<h5 class="f-title"><i class="ti-bell"></i>All Friend Requests </h5>
+									<div class="tab-pane active fade show" id="people">
+                                        <ul class="nearby-contct" id="friend-Requests"></ul>
+                                    </div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	var isFriendReq = true;
+
+	function showFriendRequests() {
+		var html = "";
+
+		var notifications = window.user.friendRequests.reverse();
+
+		for (var a = 0; a < notifications.length; a++) {
+			var data = notifications[a];
+			
+				if (data.status == "pending" )
+				{
+					html += '<li>';
+							html += '<div class="nearly-pepls">';
+								html += '<figure>';
+									html += '<a >';
+										html += '<img onerror="this.src = \'/public/img/default_profile.jpg\'" src="' + mainURL + '/' + data.profileImage + '" />';
+									html += '</a>';
+								html += '</figure>';
+
+								html += '<div class="pepl-info">';
+									html += '<h4>';
+										html += '<a >' + data.name + '</a>';
+									html += '</h4>';
+								let id = String(data._id);
+								html += '<button onclick= "acceptFriend(\''+ id + '\')">Accept</button>' ;
+									
+
+								html += '</div>';
+
+							html += '</div>';
+
+							
+						html += '</li>';
+				}				
+		}
+
+		document.getElementById("friend-Requests").innerHTML = html;
+	}
+
+	function acceptFriend(id) {
+		let accessToken = localStorage.getItem("accessToken");
+		fetch("/acceptFriendRequest/"+ id,
+		{
+    		headers: {
+      			'Accept': 'application/json',
+     	 		'Content-Type': 'application/json'
+    		},
+    	method: "POST",
+    	body: JSON.stringify({"accessToken": accessToken})
+		})
+		.then(function(res){ console.log(res); location.reload(); })
+		.catch(function(res){ console.log(res) })
+	}
+</script>
+
+<%- include ("includes/footer") %>

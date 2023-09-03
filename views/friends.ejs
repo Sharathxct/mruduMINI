@@ -1,0 +1,85 @@
+<%- include ("includes/header") %>
+
+
+
+
+<section class="premium-section">
+	<div class="gap gray-bg">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row" id="page-contents">
+
+						<div class="col-md-3">
+							<%- include ("includes/left-sidebar") %>
+						</div>
+
+						<div class="col-md-6">
+							<div class="central-meta">
+								<div class="frnds">
+
+									<div class="tab-content">
+										<div class="tab-pane active fade show" id="frends">
+
+											<ul class="nearby-contct" id="friends"></ul>
+
+											
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<%- include ("includes/right-sidebar") %>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	var isFriends = true;
+
+	function showFriends() {
+		var html = "";
+
+		var notifications = window.user.friends;
+
+		for (var a = 0; a < notifications.length; a++) {
+			var data = notifications[a];
+			
+				
+					html += '<li>';
+							html += '<div class="nearly-pepls">';
+								html += '<figure>';
+									html += '<a href="/user/id/' + data._id + '" >';
+										html += '<img onerror="this.src = \'/public/img/default_profile.jpg\'" src="' + mainURL + '/' + data.profileImage + '" />';
+									html += '</a>';
+								html += '</figure>';
+
+								html += '<div class="pepl-info">';
+									html += '<h4>';
+										html += '<a href="/user/id/' + data._id + '" >' + data.name + '</a>';
+									html += '</h4>';	
+
+								html += '</div>';
+
+							html += '</div>';
+
+							
+						html += '</li>';
+								
+		}
+
+		document.getElementById("friends").innerHTML = html;
+	}
+
+	
+</script>
+
+<%- include ("includes/footer") %>
